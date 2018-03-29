@@ -1,6 +1,7 @@
 package boxuegu.com.boxuegu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import boxuegu.com.boxuegu.view.MyInfoView;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FrameLayout mBodyLayout;
     private LinearLayout mBottomLayout;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tv_course,tv_exercises,tv_myInfo,tv_back,tv_main_title;
     private ImageView iv_course,iv_exercises,iv_myInfo;
     private RelativeLayout r1_title_bar;
+    private MyInfoView mMyInfoView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +145,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case 1:
                 break;
             case 2:
+                if(mMyInfoView == null){
+                    mMyInfoView = new MyInfoView(this);
+                    mBodyLayout.addView(mMyInfoView.getView());
+                }else{
+                    mMyInfoView.getView();
+                }
+                mMyInfoView.showView();
                 break;
         }
     }
@@ -174,5 +185,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.putBoolean("isLogin",false);
         editor.putString("loginUserName","");
         editor.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data!=null){
+            boolean isLogin = data.getBooleanExtra("isLogin",false);
+            if(isLogin){
+                clearBottomImageState();
+                selectDisplayView(0);
+            }
+            if(mMyInfoView != null){
+                mMyInfoView.setLoginParams(isLogin);
+            }
+        }
     }
 }
