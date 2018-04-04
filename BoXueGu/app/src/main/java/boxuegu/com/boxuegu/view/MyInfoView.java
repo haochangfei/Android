@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import boxuegu.com.boxuegu.R;
 import boxuegu.com.boxuegu.activity.LoginActivity;
+import boxuegu.com.boxuegu.activity.SettingActivity;
 import boxuegu.com.boxuegu.utils.AnalysisUtils;
 
 /**
@@ -70,7 +71,8 @@ public class MyInfoView {
             @Override
             public void onClick(View view) {
                 if(readLoginStatus()){
-
+                    Intent intent = new Intent(mContext, SettingActivity.class);
+                    mContext.startActivityForResult(intent,1);
                 }else
                 {
                     Toast.makeText(mContext,"你还未登录，请先登录",Toast.LENGTH_SHORT).show();
