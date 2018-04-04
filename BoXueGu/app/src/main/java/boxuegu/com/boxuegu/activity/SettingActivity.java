@@ -12,8 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Set;
-
 import boxuegu.com.boxuegu.R;
 
 public class SettingActivity extends AppCompatActivity {
@@ -48,7 +46,8 @@ public class SettingActivity extends AppCompatActivity {
         rl_modify_psw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //修改密码
+                Intent intent = new Intent(SettingActivity.this,ModifyPswActivity.class);
+                startActivity(intent);
             }
         });
         rl_security_setting.setOnClickListener(new View.OnClickListener() {
