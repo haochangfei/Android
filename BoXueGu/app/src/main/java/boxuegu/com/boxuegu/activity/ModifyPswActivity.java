@@ -46,6 +46,9 @@ public class ModifyPswActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getEditString();
                 if(TextUtils.isEmpty(originalPsw)){
+                    Toast.makeText(ModifyPswActivity.this,"请输入原始密码",Toast.LENGTH_SHORT).show();
+                }else if{
+                    
                 }
             }
         });
@@ -55,4 +58,5 @@ public class ModifyPswActivity extends AppCompatActivity {
         newPsw = et_new_psw.getText().toString().trim();
         newPswAgain = et_new_psw_again.getText().toString().trim();
     }
+
 }
