@@ -1,5 +1,6 @@
 package cn.edu.bzu.hcf.myboxuegu.activity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.edu.bzu.hcf.myboxuegu.R;
+import cn.edu.bzu.hcf.myboxuegu.utils.AnalysisUtils;
 import cn.edu.bzu.hcf.myboxuegu.utils.MD5Utils;
 
 public class FindPswActivity extends AppCompatActivity {
@@ -60,7 +62,14 @@ public class FindPswActivity extends AppCompatActivity {
                         return;
                     }else{
                         Toast.makeText(FindPswActivity.this,"设置成功",Toast.LENGTH_SHORT).show();
-                        
+                        saveSecurity(validateName);
+                        FindPswActivity.this.finish();
+                    }
+                }else{
+                    String userName = et_user_name.getText().toString().trim();
+                    String sp_security = readSecurity(userName);
+                    if(TextUtils.isEmpty(userName)){
+
                     }
                 }
             }
@@ -72,5 +81,17 @@ public class FindPswActivity extends AppCompatActivity {
         SharedPreferences.Editor editor =sp.edit();
         editor.putString(userName,md5Psw);
         editor.commit();
+    }
+    private void saveSecurity(String validateName){
+        SharedPreferences sp = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(AnalysisUtils.readLoginUserName(this)+"_security",validateName);
+        editor.commit();
+
+    }
+    private String readSecurity(String userName){
+        SharedPreferences sp = getSharedPreferences("loginInfo",Context.MODE_PRIVATE);
+        String secutity = sp.getString(userName+"_security","");
+        return secutity;
     }
 }
