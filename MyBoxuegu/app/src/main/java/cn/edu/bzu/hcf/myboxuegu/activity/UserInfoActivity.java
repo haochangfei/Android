@@ -1,12 +1,15 @@
 package cn.edu.bzu.hcf.myboxuegu.activity;
 
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.edu.bzu.hcf.myboxuegu.R;
 import cn.edu.bzu.hcf.myboxuegu.bean.UserBean;
@@ -51,10 +54,67 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             bean.userName = spUserName;
             bean.nickName = "问答精灵";
             bean.sex = "男";
+            bean.signature = "问答精灵";
+            DBUtils.getInstance(this).saveUserInfo(bean);
         }
+        setValue(bean);
+    }
+    private void setValue(UserBean bean){
+        tv_nickName.setText(bean.nickName);
+        tv_user_Name.setText(bean.userName);
+        tv_sex.setText(bean.userName);
+        tv_signature.setText(bean.signature);
+    }
+    private void setListener(){
+        tv_back.setOnClickListener(this);
+        rl_nivkName.setOnClickListener(this);
+        rl_sex.setOnClickListener(this);
+        rl_signature.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_back:
+                this.finish();
+                break;
+            case R.id.rl_nickName:
+                break;
+            case R.id.rl_sex:
+                String sex = tv_sex.getText().toString();
+                sexDialog(sex);
+                break;
+            case R.id.rl_signature:
+                break;
+            default:
+                break;
 
+        }
+    }
+
+    private void sexDialog(String sex){
+        int sexFlag = 0;
+        if("男".equals(sex)){
+            sexFlag =  0;
+        }
+        else if("女".equals(sex)){
+            sexFlag = 1;
+        }
+        final String items[] = {"男","女"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("性别");
+        builder.setSingleChoiceItems(items, sexFlag, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Toast.makeText(UserInfoActivity.this,items[which],Toast.LENGTH_SHORT).show();
+                setSex(items[which]);
+            }
+        });
+        builder.create().show();
+    }
+
+    private void setSex(String sex){
+        tv_sex.setText(sex);
+        DBUtils.getInstance(UserInfoActivity.this).updateUserInfo("sex",sex,spUserName);
     }
 }

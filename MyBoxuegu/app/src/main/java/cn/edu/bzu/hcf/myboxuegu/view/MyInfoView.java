@@ -15,6 +15,7 @@ import android.widget.Toast;
 import cn.edu.bzu.hcf.myboxuegu.R;
 import cn.edu.bzu.hcf.myboxuegu.activity.LoginActivity;
 import cn.edu.bzu.hcf.myboxuegu.activity.SettingActivity;
+import cn.edu.bzu.hcf.myboxuegu.activity.UserInfoActivity;
 import cn.edu.bzu.hcf.myboxuegu.utils.AnalysisUtils;
 
 
@@ -50,7 +51,8 @@ public class MyInfoView {
             @Override
             public void onClick(View view) {
                 if(readLoginStatus()){
-
+                    Intent intent = new Intent(mContext, UserInfoActivity.class);
+                    mContext.startActivity(intent);
                 }else{
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivityForResult(intent,1);
