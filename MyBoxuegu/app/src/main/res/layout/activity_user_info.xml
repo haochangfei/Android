@@ -26,7 +26,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/default_icon"/>
     </RelativeLayout>
-    <view
+    <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#e4e4e4"/>
@@ -53,7 +53,7 @@
             android:textColor="#a3a3a3"
             android:textSize="14sp"/>
     </RelativeLayout>
-    <view
+    <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#e4e4e4"/>
@@ -81,7 +81,7 @@
             android:textColor="#a3a3a3"
             android:textSize="14sp"/>
     </RelativeLayout>
-    <view
+    <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#e4e4e4"/>
@@ -109,7 +109,7 @@
             android:textColor="#a3a3a3"
             android:textSize="14sp"/>
     </RelativeLayout>
-    <view
+    <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#e4e4e4"/>
@@ -137,7 +137,7 @@
             android:textColor="#a3a3a3"
             android:textSize="14sp"/>
     </RelativeLayout>
-    <view
+    <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#e4e4e4"/>

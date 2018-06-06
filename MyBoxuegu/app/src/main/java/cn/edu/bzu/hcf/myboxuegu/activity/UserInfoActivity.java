@@ -1,15 +1,21 @@
 package cn.edu.bzu.hcf.myboxuegu.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.icu.util.BuddhistCalendar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.security.PublicKey;
 
 import cn.edu.bzu.hcf.myboxuegu.R;
 import cn.edu.bzu.hcf.myboxuegu.bean.UserBean;
@@ -22,6 +28,8 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private TextView tv_nickName,tv_signature,tv_user_Name,tv_sex;
     private RelativeLayout rl_nivkName,rl_sex,rl_signature,rl_title_bar;
     private String spUserName;
+    private static final int CHANGE_NICKNAME = 1;
+    private static final int CHANGK_SIGNATURE = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +38,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         spUserName = AnalysisUtils.readLoginUserName(this);
         init();
         initData();
-        //setListenter();
+        setListener();
     }
     private void init(){
         tv_back = (TextView) findViewById(R.id.tv_back);
@@ -78,12 +86,24 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 this.finish();
                 break;
             case R.id.rl_nickName:
+                String name = tv_nickName.getText().toString();
+                Bundle bdName = new Bundle();
+                bdName.putString("content",name);
+                bdName.putString("title","昵称");
+                bdName.putInt("flag",1);
+                enterActivityForResult(ChangeUserInfoActivity.class,CHANGE_NICKNAME,bdName);
                 break;
             case R.id.rl_sex:
                 String sex = tv_sex.getText().toString();
                 sexDialog(sex);
                 break;
             case R.id.rl_signature:
+                String signature = tv_signature.getText().toString();
+                Bundle bdSiginature = new Bundle();
+                bdSiginature.putString("content",signature);
+                bdSiginature.putString("title","签名");
+                bdSiginature.putInt("flag",2);
+                enterActivityForResult(ChangeUserInfoActivity.class,CHANGK_SIGNATURE,bdSiginature);
                 break;
             default:
                 break;
@@ -116,5 +136,41 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
     private void setSex(String sex){
         tv_sex.setText(sex);
         DBUtils.getInstance(UserInfoActivity.this).updateUserInfo("sex",sex,spUserName);
+    }
+    public void enterActivityForResult(Class<?> to,int requestCode,Bundle b){
+        Intent i = new Intent(this, to);
+        i.putExtras(b);
+        startActivityForResult(i,requestCode);
+    }
+    private String new_info;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case CHANGE_NICKNAME:
+                if(data != null){
+                    new_info = data.getStringExtra("nickName");
+                    //Log.d("UserInfoActivity.this", "onActivityResult: new_info" + new_info);
+                    if(TextUtils.isEmpty(new_info)){
+                       // Log.d("UserInfoActivity.this", "onActivityResult: i am finished ,ok?");
+                        return;
+                    }
+                    tv_nickName.setText(new_info);
+                    //Log.d("UserInfoActivity.this", "onActivityResult: ++++++++++++");
+                    DBUtils.getInstance(UserInfoActivity.this).updateUserInfo("nickName",new_info,spUserName);
+                }
+                break;
+            case CHANGK_SIGNATURE:
+                if(data != null){
+                    new_info = data.getStringExtra("signature");
+                    if(TextUtils.isEmpty(new_info)){
+                        return;
+                    }
+                    tv_signature.setText(new_info);
+                    DBUtils.getInstance(UserInfoActivity.this).updateUserInfo("signature",new_info,spUserName);
+                }
+                break;
+        }
     }
 }
