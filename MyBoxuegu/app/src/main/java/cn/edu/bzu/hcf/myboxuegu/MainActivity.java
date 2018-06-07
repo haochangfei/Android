@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.edu.bzu.hcf.myboxuegu.view.ExercisesView;
 import cn.edu.bzu.hcf.myboxuegu.view.MyInfoView;
 
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tv_course,tv_exercises,tv_myInfo,tv_back,tv_main_title;
     private ImageView iv_course,iv_exercises,iv_myInfo;
     private RelativeLayout r1_title_bar;
+    private ExercisesView mExercisesView;
     private MyInfoView mMyInfoView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,11 +143,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void createView(int viewIndex){
         switch (viewIndex){
-            case 0:
+            case 0://课程
                 break;
-            case 1:
+            case 1://习题
+                if(mExercisesView == null){
+                    mExercisesView = new ExercisesView(this);
+                    mBodyLayout.addView(mExercisesView.getView());
+                } else {
+                    mExercisesView.getView();
+                }
+                mExercisesView.showView();
                 break;
-            case 2:
+            case 2://我的
                 if(mMyInfoView == null){
                     mMyInfoView = new MyInfoView(this);
                     mBodyLayout.addView(mMyInfoView.getView());
